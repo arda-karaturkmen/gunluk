@@ -1,0 +1,655 @@
+{% extends 'diary/base.html' %}
+
+{% block title %}Kayıt Ol - Günlük{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-background">
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-lg-10">
+                <div class="register-card">
+                    <div class="row g-0">
+                        <!-- Left Side - Welcome -->
+                        <div class="col-lg-6 register-welcome">
+                            <div class="welcome-content">
+                                <div class="welcome-icon">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <h2 class="welcome-title">Hikayene Başla!</h2>
+                                <p class="welcome-text">
+                                    Günlük yazmanın en keyifli halini keşfet. Anılarını paylaş, arkadaşlarının hikayelerini takip et.
+                                    Her gün yeni bir sayfa, her sayfa yeni bir macera!
+                                </p>
+                                
+                                <div class="welcome-features">
+                                    <div class="feature-item">
+                                        <i class="fas fa-pen-fancy"></i>
+                                        <span>Sezgisel yazım deneyimi</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-images"></i>
+                                        <span>Fotoğraflarla zengin içerik</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-users"></i>
+                                        <span>Sosyal bağlantılar</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-shield-alt"></i>
+                                        <span>Tam gizlilik kontrolü</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="welcome-stats">
+                                    <div class="stat">
+                                        <div class="stat-icon">🚀</div>
+                                        <div class="stat-text">Hemen başla</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-icon">✨</div>
+                                        <div class="stat-text">Kolay kullanım</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-icon">🔒</div>
+                                        <div class="stat-text">Güvenli</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Side - Register Form -->
+                        <div class="col-lg-6 register-form-side">
+                            <div class="register-form-container">
+                                <div class="form-header">
+                                    <h3 class="form-title">Hesabını Oluştur</h3>
+                                    <p class="form-subtitle">Birkaç adımda hikayene başla</p>
+                                </div>
+                                
+                                {% if form.errors %}
+                                    <div class="alert alert-danger custom-alert">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        <div class="error-list">
+                                            {% for field, errors in form.errors.items %}
+                                                {% for error in errors %}
+                                                    <div class="error-item">{{ error }}</div>
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                
+                                <form method="post" class="register-form">
+                                    {% csrf_token %}
+                                    
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fas fa-envelope input-icon"></i>
+                                            <input type="email" name="email" class="form-input" 
+                                                   placeholder="E-posta adresini gir"
+                                                   value="{{ form.email.value|default:'' }}" required>
+                                            <label class="input-label">E-posta</label>
+                                        </div>
+                                        <div class="input-help">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span>Kullanıcı adın e-postandan otomatik oluşturulacak</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fas fa-user input-icon"></i>
+                                            <input type="text" name="first_name" class="form-input" 
+                                                   placeholder="Adınız (opsiyonel)"
+                                                   value="{{ form.first_name.value|default:'' }}">
+                                            <label class="input-label">Ad (Opsiyonel)</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fas fa-user input-icon"></i>
+                                            <input type="text" name="last_name" class="form-input" 
+                                                   placeholder="Soyadınız (opsiyonel)"
+                                                   value="{{ form.last_name.value|default:'' }}">
+                                            <label class="input-label">Soyad (Opsiyonel)</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fas fa-lock input-icon"></i>
+                                            <input type="password" name="password1" class="form-input" 
+                                                   placeholder="Güçlü bir şifre oluştur" required>
+                                            <label class="input-label">Şifre</label>
+                                            <button type="button" class="password-toggle" onclick="togglePassword('password1')">
+                                                <i class="fas fa-eye" id="passwordIcon1"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fas fa-lock input-icon"></i>
+                                            <input type="password" name="password2" class="form-input" 
+                                                   placeholder="Şifreni tekrar gir" required>
+                                            <label class="input-label">Şifre Tekrarı</label>
+                                            <button type="button" class="password-toggle" onclick="togglePassword('password2')">
+                                                <i class="fas fa-eye" id="passwordIcon2"></i>
+                                            </button>
+                                        </div>
+                                        <div class="input-help">
+                                            <i class="fas fa-shield-alt"></i>
+                                            <span>Doğrulama için aynı şifreyi gir</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn-register">
+                                        <span class="btn-text">Hesabımı Oluştur</span>
+                                        <i class="fas fa-rocket btn-icon"></i>
+                                        <div class="btn-ripple"></div>
+                                    </button>
+                                </form>
+                                
+                                <div class="form-footer">
+                                    <div class="divider">
+                                        <span>veya</span>
+                                    </div>
+                                    
+                                    <p class="login-text">
+                                        Zaten hesabın var mı? 
+                                        <a href="{% url 'login' %}" class="login-link">
+                                            Giriş yap <i class="fas fa-arrow-right ms-1"></i>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Register Page Styles */
+.register-container {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
+    overflow: hidden;
+}
+
+.register-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.bg-shapes {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.shape {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+}
+
+.shape-1 {
+    width: 180px;
+    height: 180px;
+    top: 15%;
+    left: 8%;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 120px;
+    height: 120px;
+    top: 70%;
+    right: 12%;
+    animation-delay: 1.5s;
+}
+
+.shape-3 {
+    width: 90px;
+    height: 90px;
+    top: 25%;
+    right: 25%;
+    animation-delay: 3s;
+}
+
+.shape-4 {
+    width: 140px;
+    height: 140px;
+    bottom: 25%;
+    left: 15%;
+    animation-delay: 0.8s;
+}
+
+.shape-5 {
+    width: 60px;
+    height: 60px;
+    top: 50%;
+    left: 50%;
+    animation-delay: 2.2s;
+}
+
+.register-card {
+    position: relative;
+    z-index: 2;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.8s ease-out;
+}
+
+.register-welcome {
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-welcome::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+}
+
+.welcome-content {
+    position: relative;
+    z-index: 2;
+    padding: 3rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.welcome-icon {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.welcome-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    animation: fadeInLeft 1s ease-out 0.3s both;
+}
+
+.welcome-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+    animation: fadeInLeft 1s ease-out 0.6s both;
+}
+
+.welcome-features {
+    margin-bottom: 2rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    animation: fadeInLeft 1s ease-out both;
+}
+
+.feature-item:nth-child(1) { animation-delay: 0.9s; }
+.feature-item:nth-child(2) { animation-delay: 1.1s; }
+.feature-item:nth-child(3) { animation-delay: 1.3s; }
+.feature-item:nth-child(4) { animation-delay: 1.5s; }
+
+.feature-item i {
+    width: 20px;
+    margin-right: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.welcome-stats {
+    display: flex;
+    gap: 1.5rem;
+    animation: fadeInLeft 1s ease-out 1.7s both;
+}
+
+.stat {
+    text-align: center;
+    flex: 1;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-text {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.register-form-side {
+    background: white;
+}
+
+.register-form-container {
+    padding: 3rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: fadeInRight 1s ease-out 0.3s both;
+}
+
+.form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+    color: #718096;
+    font-size: 1rem;
+}
+
+.custom-alert {
+    border: none;
+    border-radius: 15px;
+    background: rgba(255, 107, 107, 0.1);
+    color: #e53e3e;
+    border-left: 4px solid #e53e3e;
+    animation: shake 0.5s ease-in-out;
+    margin-bottom: 1.5rem;
+}
+
+.error-list {
+    margin: 0;
+}
+
+.error-item {
+    margin-bottom: 0.25rem;
+}
+
+.error-item:last-child {
+    margin-bottom: 0;
+}
+
+.register-form {
+    animation: fadeInRight 1s ease-out 0.6s both;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-container {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0aec0;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
+
+.form-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    font-size: 1rem;
+    background: #f7fafc;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: #ff6b6b;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.form-input:focus + .input-label,
+.form-input:not(:placeholder-shown) + .input-label {
+    transform: translateY(-2.5rem) scale(0.8);
+    color: #ff6b6b;
+}
+
+.form-input:focus ~ .input-icon {
+    color: #ff6b6b;
+}
+
+.input-label {
+    position: absolute;
+    left: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0aec0;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: white;
+    padding: 0 0.5rem;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #a0aec0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 3;
+}
+
+.password-toggle:hover {
+    color: #ff6b6b;
+}
+
+.input-help {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+.input-help i {
+    margin-right: 0.5rem;
+    color: #a0aec0;
+}
+
+.btn-register {
+    position: relative;
+    width: 100%;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.btn-register:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+}
+
+.btn-register:active {
+    transform: translateY(0);
+}
+
+.btn-ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.btn-register:active .btn-ripple {
+    width: 300px;
+    height: 300px;
+}
+
+.form-footer {
+    animation: fadeInRight 1s ease-out 0.9s both;
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+.divider span {
+    background: white;
+    padding: 0 1rem;
+    color: #a0aec0;
+    font-size: 0.9rem;
+}
+
+.login-text {
+    text-align: center;
+    color: #718096;
+    margin: 0;
+}
+
+.login-link {
+    color: #ff6b6b;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.login-link:hover {
+    color: #e55656;
+    text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .register-welcome {
+        display: none;
+    }
+    
+    .register-form-container {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .register-form-container {
+        padding: 1.5rem;
+    }
+    
+    .form-title {
+        font-size: 1.5rem;
+    }
+}
+</style>
+
+<script>
+function togglePassword(fieldName) {
+    const passwordInput = document.querySelector(`input[name="${fieldName}"]`);
+    const passwordIcon = document.getElementById(`passwordIcon${fieldName === 'password1' ? '1' : '2'}`);
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordIcon.className = 'fas fa-eye-slash';
+    } else {
+        passwordInput.type = 'password';
+        passwordIcon.className = 'fas fa-eye';
+    }
+}
+
+// Add floating label effect
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('.form-input');
+    
+    inputs.forEach(input => {
+        // Check if input has value on page load
+        if (input.value) {
+            input.classList.add('has-value');
+        }
+        
+        input.addEventListener('blur', function() {
+            if (this.value) {
+                this.classList.add('has-value');
+            } else {
+                this.classList.remove('has-value');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

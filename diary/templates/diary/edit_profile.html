@@ -1,0 +1,77 @@
+{% extends 'diary/base.html' %}
+
+{% block title %}Profili Düzenle - Günlük{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-edit me-2"></i>Profili Düzenle
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="text-center mb-4">
+                        {% if profile_form.instance.profile_picture %}
+                            <img src="{{ profile_form.instance.profile_picture.url }}" alt="Mevcut Profil Fotoğrafı" 
+                                 class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                        {% else %}
+                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white mx-auto mb-3" 
+                                 style="width: 120px; height: 120px; font-size: 3rem;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Kullanıcı Adı Düzenleme -->
+                    <div class="mb-3">
+                        <label for="{{ username_form.username.id_for_label }}" class="form-label">
+                            <i class="fas fa-at me-1"></i>Kullanıcı Adı
+                        </label>
+                        {{ username_form.username }}
+                        {% if username_form.username.help_text %}
+                            <div class="form-text">{{ username_form.username.help_text }}</div>
+                        {% endif %}
+                        {% if username_form.username.errors %}
+                            <div class="text-danger small">{{ username_form.username.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ profile_form.profile_picture.id_for_label }}" class="form-label">
+                            <i class="fas fa-camera me-1"></i>Profil Fotoğrafı
+                        </label>
+                        {{ profile_form.profile_picture }}
+                        {% if profile_form.profile_picture.errors %}
+                            <div class="text-danger small">{{ profile_form.profile_picture.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="{{ profile_form.bio.id_for_label }}" class="form-label">
+                            <i class="fas fa-info-circle me-1"></i>Biyografi
+                        </label>
+                        {{ profile_form.bio }}
+                        {% if profile_form.bio.errors %}
+                            <div class="text-danger small">{{ profile_form.bio.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'diary:user_profile' username=user.username %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>İptal
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Kaydet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

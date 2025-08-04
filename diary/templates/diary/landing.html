@@ -1,0 +1,633 @@
+{% extends 'diary/base.html' %}
+
+{% block title %}Hoş Geldiniz - Günlük{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Animated Background -->
+<div class="landing-hero">
+    <div class="animated-bg">
+        <div class="floating-elements">
+            <div class="floating-item" style="--delay: 0s; --duration: 8s;">📝</div>
+            <div class="floating-item" style="--delay: 1s; --duration: 10s;">📸</div>
+            <div class="floating-item" style="--delay: 2s; --duration: 7s;">💭</div>
+            <div class="floating-item" style="--delay: 3s; --duration: 9s;">✨</div>
+            <div class="floating-item" style="--delay: 4s; --duration: 11s;">🌟</div>
+            <div class="floating-item" style="--delay: 5s; --duration: 6s;">💫</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <div class="hero-badge mb-4">
+                        <span class="badge-text">✨ Yeni Nesil Günlük Deneyimi</span>
+                    </div>
+                    
+                    <h1 class="hero-title mb-4">
+                        <span class="title-line">Anılarını</span>
+                        <span class="title-line gradient-text">Paylaş</span>
+                        <span class="title-line">Hikayeni <span class="highlight">Yaz</span></span>
+                    </h1>
+                    
+                    <p class="hero-subtitle mb-5">
+                        Günlük yazmanın en keyifli hali! Fotoğraflarınla desteklediğin hikayelerini arkadaşlarınla paylaş, 
+                        onların dünyasına da göz at. Her gün yeni bir sayfa, her sayfa yeni bir anı.
+                    </p>
+                    
+                    <div class="hero-buttons">
+                        <a href="{% url 'diary:register' %}" class="btn btn-hero-primary">
+                            <span class="btn-text">Hikayeni Başlat</span>
+                            <div class="btn-shine"></div>
+                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-hero-secondary">
+                            <i class="fas fa-arrow-right me-2"></i>Giriş Yap
+                        </a>
+                    </div>
+                    
+                    <div class="hero-stats mt-5">
+                        <div class="stat-item">
+                            <div class="stat-number">∞</div>
+                            <div class="stat-label">Sınırsız Anı</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">📸</div>
+                            <div class="stat-label">Fotoğraf Desteği</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">🔒</div>
+                            <div class="stat-label">Tam Gizlilik</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="hero-visual">
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div class="mock-diary-entry">
+                                <div class="mock-header">
+                                    <div class="mock-avatar"></div>
+                                    <div class="mock-info">
+                                        <div class="mock-name"></div>
+                                        <div class="mock-date"></div>
+                                    </div>
+                                </div>
+                                <div class="mock-content">
+                                    <div class="mock-text-line"></div>
+                                    <div class="mock-text-line short"></div>
+                                    <div class="mock-text-line"></div>
+                                </div>
+                                <div class="mock-photos">
+                                    <div class="mock-photo"></div>
+                                    <div class="mock-photo"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phone-reflection"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="features-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center mb-5">
+                <h2 class="section-title">Neden <span class="gradient-text">Günlük</span>?</h2>
+                <p class="section-subtitle">Modern hayatın hızında kaybolmayan anılar</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card-new">
+                    <div class="feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h4>Sezgisel Yazma</h4>
+                    <p>Düşüncelerini özgürce yaz, fotoğraflarını ekle. Sade arayüz, güçlü özellikler.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card-new">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h4>Sosyal Bağlantı</h4>
+                    <p>Sevdiklerinin hikayelerini takip et, onlar da seninkini görsün. Gerçek paylaşım.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card-new">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Güvenli Saklama</h4>
+                    <p>Anıların güvende. Sen karar ver: sadece sen mi görsün, yoksa herkesle mi paylaşsın?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Public Feed Section -->
+<div class="public-feed-section py-5" id="discover">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center mb-5">
+                <h2 class="section-title">Keşfet</h2>
+                <p class="section-subtitle">Platformda paylaşılan en son anılar</p>
+            </div>
+        </div>
+        <div class="row">
+            {% if entries %}
+                {% for entry in entries %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm diary-card-public">
+                        {% if entry.photos.all %}
+                            <div class="card-img-container">
+                                <img src="{{ entry.photos.first.image.url }}" class="card-img-top" alt="{{ entry.title|default:'Günlük fotoğrafı' }}">
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ entry.title|default:'Başlıksız' }}</h5>
+                            <p class="card-text text-muted small mb-2">
+                                <a href="{% url 'diary:user_profile' entry.author.username %}" class="text-decoration-none text-dark fw-bold">
+                                    <img src="{{ entry.author.userprofile.profile_picture.url }}" class="rounded-circle me-1" width="24" height="24" alt="{{ entry.author.username }}" style="object-fit: cover;">
+                                    {{ entry.author.username }}
+                                </a>
+                            </p>
+                            <p class="card-text">{{ entry.content|truncatewords:25 }}</p>
+                        </div>
+                        <div class="card-footer bg-white border-0 pt-0">
+                             <a href="{% url 'login' %}" class="btn btn-sm btn-outline-primary w-100">Devamını okumak için giriş yap</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col text-center">
+                    <p>Henüz herkese açık bir günlük paylaşılmamış. İlk paylaşan sen ol!</p>
+                    <a href="{% url 'diary:register' %}" class="btn btn-primary">Hemen Başla</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+/* Landing Page Styles */
+.landing-hero {
+    position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow: hidden;
+    color: white;
+}
+
+.animated-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+    animation: bgShift 20s ease-in-out infinite;
+}
+
+@keyframes bgShift {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    33% { transform: translateX(-20px) translateY(-10px); }
+    66% { transform: translateX(20px) translateY(10px); }
+}
+
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.floating-item {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.6;
+    animation: float var(--duration) ease-in-out infinite;
+    animation-delay: var(--delay);
+}
+
+.floating-item:nth-child(1) { top: 10%; left: 10%; }
+.floating-item:nth-child(2) { top: 20%; right: 15%; }
+.floating-item:nth-child(3) { top: 60%; left: 5%; }
+.floating-item:nth-child(4) { top: 70%; right: 10%; }
+.floating-item:nth-child(5) { top: 40%; left: 80%; }
+.floating-item:nth-child(6) { top: 80%; left: 70%; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.hero-content {
+    z-index: 2;
+    position: relative;
+}
+
+.hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    padding: 8px 20px;
+    animation: fadeInUp 1s ease-out;
+}
+
+.badge-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+}
+
+.title-line {
+    display: block;
+    animation: fadeInUp 1s ease-out;
+}
+
+.title-line:nth-child(2) { animation-delay: 0.2s; }
+.title-line:nth-child(3) { animation-delay: 0.4s; }
+
+.gradient-text {
+    background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.highlight {
+    position: relative;
+    z-index: 1;
+}
+
+.highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: rgba(255, 235, 59, 0.4);
+    z-index: -1;
+    animation: highlightGrow 1s ease-out 0.6s both;
+}
+
+@keyframes highlightGrow {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+.btn-hero-primary {
+    position: relative;
+    background: linear-gradient(45deg, #ff6b6b, #feca57);
+    border: none;
+    color: white;
+    padding: 15px 35px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+.btn-hero-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
+    color: white;
+}
+
+.btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.btn-hero-primary:hover .btn-shine {
+    left: 100%;
+}
+
+.btn-hero-secondary {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 13px 30px;
+    border-radius: 50px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.btn-hero-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.hero-stats {
+    display: flex;
+    gap: 2rem;
+    animation: fadeInUp 1s ease-out 0.9s both;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Phone Mockup */
+.hero-visual {
+    position: relative;
+    animation: fadeInRight 1s ease-out 0.5s both;
+}
+
+.phone-mockup {
+    position: relative;
+    width: 300px;
+    height: 600px;
+    margin: 0 auto;
+    background: #1a1a1a;
+    border-radius: 40px;
+    padding: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    animation: phoneFloat 6s ease-in-out infinite;
+}
+
+@keyframes phoneFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+.phone-screen {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 30px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.mock-diary-entry {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    animation: mockEntrySlide 3s ease-in-out infinite;
+}
+
+@keyframes mockEntrySlide {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.mock-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.mock-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ff6b6b, #feca57);
+    margin-right: 12px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.mock-info {
+    flex: 1;
+}
+
+.mock-name {
+    width: 80px;
+    height: 12px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+.mock-date {
+    width: 60px;
+    height: 10px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    animation: shimmer 2s ease-in-out infinite 0.5s;
+}
+
+.mock-text-line {
+    height: 12px;
+    background: #f5f5f5;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+.mock-text-line.short {
+    width: 70%;
+    animation-delay: 0.3s;
+}
+
+.mock-photos {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.mock-photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #48dbfb, #ff9ff3);
+    animation: photoGlow 3s ease-in-out infinite;
+}
+
+.mock-photo:nth-child(2) {
+    animation-delay: 1s;
+}
+
+@keyframes photoGlow {
+    0%, 100% { box-shadow: 0 0 0 rgba(72, 219, 251, 0); }
+    50% { box-shadow: 0 0 20px rgba(72, 219, 251, 0.5); }
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Features Section */
+.features-section {
+    background: #f8fafc;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #718096;
+    margin-top: 1rem;
+}
+
+.feature-card-new {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+}
+
+.feature-card-new:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+}
+
+.feature-card-new h4 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #2d3748;
+}
+
+.feature-card-new p {
+    color: #718096;
+    line-height: 1.6;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-buttons {
+        justify-content: center;
+    }
+    
+    .hero-stats {
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .phone-mockup {
+        width: 250px;
+        height: 500px;
+    }
+    
+    .floating-item {
+        font-size: 1.5rem;
+    }
+}
+</style>
+{% endblock %}

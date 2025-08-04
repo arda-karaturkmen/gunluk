@@ -1,0 +1,132 @@
+{% extends 'diary/base.html' %}
+
+{% block title %}Ana Sayfa - Günlük{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold">
+                <i class="fas fa-stream me-2 text-primary"></i>Günlük Akışı
+            </h2>
+            <a href="{% url 'diary:create_entry' %}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Yeni Günlük
+            </a>
+        </div>
+
+        {% if page_obj %}
+            {% for entry in page_obj %}
+                <div class="diary-card mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white border-0 pb-0">
+                            <div class="d-flex align-items-center">
+                                {% if entry.author.userprofile.profile_picture %}
+                                    <img src="{{ entry.author.userprofile.profile_picture.url }}" 
+                                         alt="Profil" class="rounded-circle me-3" style="width: 48px; height: 48px; object-fit: cover;">
+                                {% else %}
+                                    <div class="rounded-circle me-3 bg-light d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                                        <i class="fas fa-user text-secondary"></i>
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <h6 class="mb-0">
+                                        <a href="{% url 'diary:user_profile' entry.author.username %}" 
+                                           class="text-decoration-none">
+                                            {{ entry.author.get_full_name|default:entry.author.username }}
+                                        </a>
+                                    </h6>
+                                    <small class="text-muted">{{ entry.created_at|date:"d F Y, H:i" }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            {% if entry.title %}
+                                <h5 class="card-title">{{ entry.title }}</h5>
+                            {% endif %}
+                            <p class="card-text">{{ entry.content|linebreaks }}</p>
+                            
+                            {% if entry.photos.all %}
+                                <div class="photo-gallery mt-3">
+                                    <div class="row g-2">
+                                        {% for photo in entry.photos.all %}
+                                            <div class="col-3">
+                                                <div class="photo-gallery-item" data-bs-toggle="modal" data-bs-target="#photoModal{{ photo.id }}">
+                                                    <img src="{{ photo.image.url }}" alt="Günlük Fotoğrafı" class="diary-photo">
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Photo Modal -->
+                                            <div class="modal fade" id="photoModal{{ photo.id }}" tabindex="-1">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body p-0">
+                                                            <img src="{{ photo.image.url }}" alt="Günlük Fotoğrafı" 
+                                                                 class="img-fluid w-100">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="card-footer bg-white border-0 pt-0">
+                            <small class="text-muted">
+                                {% if entry.privacy == 'public' %}
+                                    <i class="fas fa-globe me-1"></i>
+                                {% else %}
+                                    <i class="fas fa-lock me-1"></i>
+                                {% endif %}
+                                {{ entry.get_privacy_display }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+                <nav aria-label="Sayfa navigasyonu">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Önceki</a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Sonraki</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-book-open fa-4x text-muted mb-3"></i>
+                <h4 class="text-muted">Henüz günlük girişi yok</h4>
+                <p class="text-muted">İlk günlük girişinizi oluşturun veya arkadaşlarınızı takip edin!</p>
+                <a href="{% url 'diary:create_entry' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>İlk Günlüğünüzü Yazın
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

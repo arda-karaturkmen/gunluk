@@ -1,0 +1,53 @@
+{% extends 'diary/base.html' %}
+
+{% block title %}Günlük Girişini Sil - Günlük{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-trash me-2"></i>Günlük Girişini Sil
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Dikkat!</strong> Bu işlem geri alınamaz. Günlük girişiniz ve tüm fotoğrafları kalıcı olarak silinecek.
+                </div>
+                
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            {% if entry.title %}{{ entry.title }}{% else %}{{ entry.created_at|date:"d F Y" }}{% endif %}
+                        </h6>
+                        <p class="card-text">{{ entry.content|truncatewords:50 }}</p>
+                        <small class="text-muted">{{ entry.created_at|date:"d F Y, H:i" }}</small>
+                        
+                        {% if entry.photos.all %}
+                            <div class="mt-2">
+                                <small class="text-muted">
+                                    <i class="fas fa-camera me-1"></i>{{ entry.photos.count }} fotoğraf
+                                </small>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'diary:profile' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>İptal
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash me-2"></i>Evet, Sil
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

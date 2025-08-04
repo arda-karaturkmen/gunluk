@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Günlük{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="{% url 'diary:home' %}">
+                <i class="fas fa-book-open me-2"></i>Günlük
+            </a>
+            
+            {% if user.is_authenticated %}
+            <div class="navbar-nav ms-auto d-flex flex-row align-items-center">
+
+                <a class="nav-link me-3" href="{% url 'diary:user_profile' username=user.username %}">
+                    <i class="fas fa-user me-1"></i>Profilim
+                </a>
+                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link btn btn-link py-0">
+                        <i class="fas fa-sign-out-alt me-1"></i>Çıkış
+                    </button>
+                </form>
+            </div>
+            {% else %}
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link me-2" href="{% url 'login' %}">Giriş</a>
+                <a class="nav-link" href="{% url 'diary:register' %}">Kayıt Ol</a>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container my-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
