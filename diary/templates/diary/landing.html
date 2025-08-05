@@ -143,47 +143,49 @@
         <div class="row">
             <div class="col-lg-12 text-center mb-5">
                 <h2 class="section-title">Keşfet</h2>
-                <p class="section-subtitle">Platformda paylaşılan en son anılar</p>
+                <p class="section-subtitle">Günlük'te seni neler bekliyor?</p>
             </div>
         </div>
         <div class="row">
-            {% if entries %}
-                {% for entry in entries %}
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm diary-card-public">
-                        {% if entry.photos.all.count > 0 and entry.photos.first.image %}
-                            <div class="card-img-container">
-                                <img src="{{ entry.photos.first.image.url }}" class="card-img-top" alt="{{ entry.title|default:'Günlük fotoğrafı' }}">
-                            </div>
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ entry.title|default:'Başlıksız' }}</h5>
-                            <p class="card-text text-muted small mb-2">
-                                <a href="{% url 'diary:user_profile' entry.author.username %}" class="text-decoration-none text-dark fw-bold">
-                                    {% if entry.author.userprofile.profile_picture and entry.author.userprofile.profile_picture.name %}
-                                        <img src="{{ entry.author.userprofile.profile_picture.url }}" class="rounded-circle me-1" width="24" height="24" alt="{{ entry.author.username }}" style="object-fit: cover;">
-                                    {% else %}
-                                        <div class="rounded-circle me-1 bg-light d-inline-flex align-items-center justify-content-center" style="width: 24px; height: 24px;">
-                                            <i class="fas fa-user text-secondary" style="font-size: 12px;"></i>
-                                        </div>
-                                    {% endif %}
-                                    {{ entry.author.username }}
-                                </a>
-                            </p>
-                            <p class="card-text">{{ entry.content|truncatewords:25 }}</p>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-lock-open fa-2x text-primary"></i>
                         </div>
-                        <div class="card-footer bg-white border-0 pt-0">
-                             <a href="{% url 'login' %}" class="btn btn-sm btn-outline-primary w-100">Devamını okumak için giriş yap</a>
-                        </div>
+                        <h5 class="card-title">Güvenli Paylaşım</h5>
+                        <p class="card-text">Anılarını istediğin kişilerle paylaş. Gizlilik kontrolü tamamen senin elinde.</p>
                     </div>
                 </div>
-                {% endfor %}
-            {% else %}
-                <div class="col text-center">
-                    <p>Henüz herkese açık bir günlük paylaşılmamış. İlk paylaşan sen ol!</p>
-                    <a href="{% url 'diary:register' %}" class="btn btn-primary">Hemen Başla</a>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-images fa-2x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Fotoğraf Galerisi</h5>
+                        <p class="card-text">Her anına fotoğraflar ekle ve güzel anılarını görsel olarak sakla.</p>
+                    </div>
                 </div>
-            {% endif %}
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm feature-card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-calendar-alt fa-2x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Takvim Görünümü</h5>
+                        <p class="card-text">Günlük girdilerini takvim üzerinde gör ve geçmiş anılarına kolayca eriş.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col text-center">
+                <a href="{% url 'diary:register' %}" class="btn btn-lg btn-primary">Hemen Üye Ol</a>
+                <a href="{% url 'login' %}" class="btn btn-lg btn-outline-primary ms-2">Giriş Yap</a>
+            </div>
         </div>
     </div>
 </div>
