@@ -50,23 +50,25 @@
                                 <div class="photo-gallery mt-3">
                                     <div class="row g-2">
                                         {% for photo in entry.photos.all %}
-                                            <div class="col-3">
-                                                <div class="photo-gallery-item" data-bs-toggle="modal" data-bs-target="#photoModal{{ photo.id }}">
-                                                    <img src="{{ photo.image.url }}" alt="Günlük Fotoğrafı" class="diary-photo">
+                                            {% if photo.image and photo.image.name %}
+                                                <div class="col-3">
+                                                    <div class="photo-gallery-item" data-bs-toggle="modal" data-bs-target="#photoModal{{ photo.id }}">
+                                                        <img src="{{ photo.image.url }}" alt="Günlük Fotoğrafı" class="diary-photo">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            
-                                            <!-- Photo Modal -->
-                                            <div class="modal fade" id="photoModal{{ photo.id }}" tabindex="-1">
-                                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-body p-0">
-                                                            <img src="{{ photo.image.url }}" alt="Günlük Fotoğrafı" 
-                                                                 class="img-fluid w-100">
+                                                
+                                                <!-- Photo Modal -->
+                                                <div class="modal fade" id="photoModal{{ photo.id }}" tabindex="-1">
+                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body p-0">
+                                                                <img src="{{ photo.image.url }}" alt="Günlük Fotoğrafı" 
+                                                                     class="img-fluid w-100">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            {% endif %}
                                         {% endfor %}
                                     </div>
                                 </div>
