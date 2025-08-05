@@ -16,7 +16,7 @@
                     {% csrf_token %}
                     
                     <div class="text-center mb-4">
-                        {% if profile_form.instance.profile_picture %}
+                        {% if profile_form.instance.profile_picture and profile_form.instance.profile_picture.name %}
                             <img src="{{ profile_form.instance.profile_picture.url }}" alt="Mevcut Profil Fotoğrafı" 
                                  class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
                         {% else %}

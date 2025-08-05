@@ -12,7 +12,7 @@
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-auto">
-                        {% if profile.profile_picture %}
+                        {% if profile.profile_picture and profile.profile_picture.name %}
                             <img src="{{ profile.profile_picture.url }}" alt="Profil Fotoğrafı" 
                                  class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover;">
                         {% else %}
