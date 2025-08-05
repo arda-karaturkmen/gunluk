@@ -11,7 +11,13 @@ def safe_image_url(image_field):
     """
     if image_field and hasattr(image_field, 'name') and image_field.name:
         try:
-            return image_field.url
-        except ValueError:
+            # URL'yi al
+            url = image_field.url
+            # URL'nin geçerli olduğundan emin ol
+            if url and url.strip():
+                return url
+            return None
+        except (ValueError, AttributeError, Exception):
+            # Herhangi bir hata durumunda None döndür
             return None
     return None

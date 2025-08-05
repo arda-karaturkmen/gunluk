@@ -20,19 +20,41 @@ class UserProfile(models.Model):
         super().save(*args, **kwargs)
 
         # Then, process the image if it exists
-        if self.profile_picture and hasattr(self.profile_picture.storage, 'path'):
+        if self.profile_picture and self.profile_picture.name:
             try:
-                img_path = self.profile_picture.path
-                img = Image.open(img_path)
+                # Dosya yolu elde edilebiliyorsa
+                if hasattr(self.profile_picture.storage, 'path'):
+                    img_path = self.profile_picture.path
+                    img = Image.open(img_path)
 
-                # Resize if the image is larger than 300x300
-                if img.height > 300 or img.width > 300:
-                    output_size = (300, 300)
-                    img.thumbnail(output_size)
+                    # Resize if the image is larger than 300x300
+                    if img.height > 300 or img.width > 300:
+                        output_size = (300, 300)
+                        img.thumbnail(output_size)
+                        
+                        # Save the image back to the same path
+                        img.save(img_path, quality=85, optimize=True)
+                # Dosya yolu elde edilemiyorsa (örn. S3 veya başka bir storage)
+                else:
+                    # Dosyayı belleğe al, işle ve geri kaydet
+                    img_data = self.profile_picture.read()
+                    img = Image.open(BytesIO(img_data))
                     
-                    # Save the image back to the same path
-                    img.save(img_path, quality=85, optimize=True)
-            except (IOError, FileNotFoundError):
+                    if img.height > 300 or img.width > 300:
+                        output_size = (300, 300)
+                        img.thumbnail(output_size)
+                        
+                        output = BytesIO()
+                        img.save(output, format=img.format, quality=85, optimize=True)
+                        output.seek(0)
+                        
+                        # Dosyayı güncelle
+                        self.profile_picture.save(
+                            self.profile_picture.name,
+                            ContentFile(output.read()),
+                            save=False
+                        )
+            except (IOError, FileNotFoundError, AttributeError):
                 # Handle cases where the file might not exist or is corrupted
                 pass
 
