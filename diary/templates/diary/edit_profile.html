@@ -1,4 +1,6 @@
 {% extends 'diary/base.html' %}
+{% load static %}
+{% load image_filters %}
 
 {% block title %}Profili Düzenle - Günlük{% endblock %}
 
@@ -16,8 +18,8 @@
                     {% csrf_token %}
                     
                     <div class="text-center mb-4">
-                        {% if profile_form.instance.profile_picture and profile_form.instance.profile_picture.name %}
-                            <img src="{{ profile_form.instance.profile_picture.url }}" alt="Mevcut Profil Fotoğrafı" 
+                        {% if profile_form.instance.profile_picture|safe_image_url %}
+                            <img src="{{ profile_form.instance.profile_picture|safe_image_url }}" alt="Mevcut Profil Fotoğrafı" 
                                  class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
                         {% else %}
                             <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white mx-auto mb-3" 

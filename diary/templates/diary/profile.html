@@ -1,4 +1,6 @@
 {% extends 'diary/base.html' %}
+{% load static %}
+{% load image_filters %}
 
 {% block title %}
     {% if is_own_profile %}Profilim{% else %}{{ profile_user.get_full_name|default:profile_user.username }}{% endif %} - Günlük
@@ -12,8 +14,8 @@
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-auto">
-                        {% if profile.profile_picture and profile.profile_picture.name %}
-                            <img src="{{ profile.profile_picture.url }}" alt="Profil Fotoğrafı" 
+                        {% if profile.profile_picture|safe_image_url %}
+                            <img src="{{ profile.profile_picture|safe_image_url }}" alt="Profil Fotoğrafı" 
                                  class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover;">
                         {% else %}
                             <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white" 
