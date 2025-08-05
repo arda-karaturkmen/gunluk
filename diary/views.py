@@ -42,6 +42,14 @@ def home(request):
     else:
         # Giriş yapmamış kullanıcılar için en son herkese açık gönderiler
         public_entries = DiaryEntry.objects.filter(privacy='public').select_related('author', 'author__userprofile').prefetch_related('photos').order_by('-created_at')[:20]
+        
+        # Entries için güvenli bir şekilde profile_picture kontrolü yapalım
+        for entry in public_entries:
+            if hasattr(entry.author, 'userprofile') and entry.author.userprofile:
+                # Profil resmi var mı kontrol et
+                if not entry.author.userprofile.profile_picture:
+                    entry.author.userprofile.profile_picture = None
+                    
         return render(request, 'diary/landing.html', {'entries': public_entries})
 
 

@@ -160,7 +160,7 @@
                             <h5 class="card-title">{{ entry.title|default:'Başlıksız' }}</h5>
                             <p class="card-text text-muted small mb-2">
                                 <a href="{% url 'diary:user_profile' entry.author.username %}" class="text-decoration-none text-dark fw-bold">
-                                    {% if entry.author.userprofile.profile_picture %}
+                                    {% if entry.author.userprofile.profile_picture and entry.author.userprofile.profile_picture.name %}
                                         <img src="{{ entry.author.userprofile.profile_picture.url }}" class="rounded-circle me-1" width="24" height="24" alt="{{ entry.author.username }}" style="object-fit: cover;">
                                     {% else %}
                                         <div class="rounded-circle me-1 bg-light d-inline-flex align-items-center justify-content-center" style="width: 24px; height: 24px;">
