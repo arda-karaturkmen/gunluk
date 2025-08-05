@@ -30,6 +30,5 @@ urlpatterns = [
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
 
-# Media files için development ortamında
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Media files için hem development hem de production ortamında
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
